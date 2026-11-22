@@ -1,4 +1,4 @@
-# Petit générateur de nombre aléatoire
+﻿# Petit générateur de nombre aléatoire
 
 # Fonction qui redemande tant que l'utilisateur ne tape pas un vrai nombre
 function Lire-Nombre($question) {
@@ -23,7 +23,16 @@ if ($min -gt $max) {
     $min = $max
     $max = $temp
 }
-# Get-Random exclut la borne max, donc on ajoute 1
-$nombre = Get-Random -Minimum $min -Maximum ($max + 1)
+# Demander combien de nombres générer (au moins 1)
+$quantite = Lire-Nombre "Combien de nombres voulez-vous générer"
+while ($quantite -lt 1) {
+    Write-Host "Il faut au moins 1 nombre."
+    $quantite = Lire-Nombre "Combien de nombres voulez-vous générer"
+}
 
-Write-Host "Votre nombre est : $nombre"
+# Générer et afficher chaque nombre
+for ($i = 1; $i -le $quantite; $i++) {
+    # Get-Random exclut la borne max, donc on ajoute 1
+    $nombre = Get-Random -Minimum $min -Maximum ($max + 1)
+    Write-Host "Nombre $i : $nombre"
+}
