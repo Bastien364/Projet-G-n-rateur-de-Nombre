@@ -13,26 +13,39 @@ function Lire-Nombre($question) {
 
 Write-Host "=== Générateur de nombre ==="
 
-$min = Lire-Nombre "Nombre minimum"
-$max = Lire-Nombre "Nombre maximum"
+# On répète tout le programme tant que l'utilisateur veut recommencer
+do {
+    $min = Lire-Nombre "Nombre minimum"
+    $max = Lire-Nombre "Nombre maximum"
 
-# Si le minimum est plus grand que le maximum, on les échange
-if ($min -gt $max) {
-    Write-Host "Le minimum est plus grand que le maximum, je les inverse."
-    $temp = $min
-    $min = $max
-    $max = $temp
-}
-# Demander combien de nombres générer (au moins 1)
-$quantite = Lire-Nombre "Combien de nombres voulez-vous générer"
-while ($quantite -lt 1) {
-    Write-Host "Il faut au moins 1 nombre."
+    # Si le minimum est plus grand que le maximum, on les échange
+    if ($min -gt $max) {
+        Write-Host "Le minimum est plus grand que le maximum, je les inverse."
+        $temp = $min
+        $min = $max
+        $max = $temp
+    }
+
+    # Demander combien de nombres générer (au moins 1)
     $quantite = Lire-Nombre "Combien de nombres voulez-vous générer"
-}
+    while ($quantite -lt 1) {
+        Write-Host "Il faut au moins 1 nombre."
+        $quantite = Lire-Nombre "Combien de nombres voulez-vous générer"
+    }
 
-# Générer et afficher chaque nombre
-for ($i = 1; $i -le $quantite; $i++) {
-    # Get-Random exclut la borne max, donc on ajoute 1
-    $nombre = Get-Random -Minimum $min -Maximum ($max + 1)
-    Write-Host "Nombre $i : $nombre"
-}
+    # Générer et afficher chaque nombre
+    for ($i = 1; $i -le $quantite; $i++) {
+        # Get-Random exclut la borne max, donc on ajoute 1
+        $nombre = Get-Random -Minimum $min -Maximum ($max + 1)
+        Write-Host "Nombre $i : $nombre"
+    }
+
+    # Demander si on recommence (seulement o ou n accepté)
+    $choix = Read-Host "Voulez-vous recommencer ? (o/n)"
+    while ($choix -ne "o" -and $choix -ne "n") {
+        Write-Host "Répondez par o (oui) ou n (non)."
+        $choix = Read-Host "Voulez-vous recommencer ? (o/n)"
+    }
+} while ($choix -eq "o")
+
+Write-Host "Au revoir !"
